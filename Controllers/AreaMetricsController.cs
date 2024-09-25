@@ -37,11 +37,18 @@ namespace EnvironmentalMetricsService.Controllers
         }
 
         [HttpGet("areas/{id}/metrics/history")]
-        public async Task<IActionResult> GetMetricsHistory(Guid id, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetMetricsHistory(Guid id, int page = 1, int pageSize = 10, DateTime? startTime = null, DateTime? endTime = null)
         {
+            if (startTime.HasValue && endTime.HasValue)
+            {
+                var filteredHistory = await _areaMetricsService.GetMetricsHistoryByTimeRangeAsync(id, startTime.Value, endTime.Value);
+                return Ok(filteredHistory);
+            }
+
             var metricsHistory = await _areaMetricsService.GetMetricsHistoryAsync(id, page, pageSize);
             return Ok(metricsHistory);
         }
+
 
         [HttpGet("areas")]
         public async Task<IActionResult> ListMonitoredAreas()

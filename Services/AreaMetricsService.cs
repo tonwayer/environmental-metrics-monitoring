@@ -46,10 +46,20 @@ namespace EnvironmentalMetricsService.Services
             if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>(null);
 
             var metricsHistory = _areas[id].MetricsHistory
-                                .Skip((page - 1) * pageSize)
-                                .Take(pageSize);
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
             return Task.FromResult(metricsHistory);
         }
+
+        public Task<IEnumerable<MetricRecord>> GetMetricsHistoryByTimeRangeAsync(Guid id, DateTime startTime, DateTime endTime)
+        {
+            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>(null);
+
+            var filteredMetrics = _areas[id].MetricsHistory
+                                .Where(m => m.TimeStamp >= startTime && m.TimeStamp <= endTime);
+            return Task.FromResult(filteredMetrics);
+        }
+
 
         public Task<IEnumerable<AreaMetrics>> ListMonitoredAreasAsync()
         {

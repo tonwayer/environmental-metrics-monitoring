@@ -9,5 +9,6 @@ namespace EnvironmentalMetricsService.Services
         Task<MetricRecord> GetLatestMetricsAsync(Guid id);
         Task<IEnumerable<MetricRecord>> GetMetricsHistoryAsync(Guid id, int page, int pageSize);
         Task<IEnumerable<AreaMetrics>> ListMonitoredAreasAsync();
+        Task<IEnumerable<MetricRecord>> GetMetricsHistoryByTimeRangeAsync(Guid id, DateTime startTime, DateTime endTime);
     }
 }
