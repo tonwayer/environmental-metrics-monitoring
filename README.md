@@ -24,36 +24,7 @@ The application follows a microservice architecture with three key layers:
 
 For detailed system design, refer to the diagram:
 
-```mermaid
-graph TD
-    A[Client] --> B[API Gateway]
-    B --> C[AreaMetricsController]
-    C --> D[IAreaMetricsService Interface]
-    D --> E[AreaMetricsService]
-    
-    subgraph Service Layer
-        D[IAreaMetricsService Interface]
-        E[AreaMetricsService]
-    end
-
-    subgraph AreaMetricsService Operations
-        E --> F1[RegisterAreaAsync]
-        E --> F2[RecordMetricsAsync]
-        E --> F3[GetLatestMetricsAsync]
-        E --> F4[GetMetricsHistoryAsync]
-        E --> F5[ListMonitoredAreasAsync]
-    end
-
-    subgraph Data Layer
-        F[In-Memory Data Store]
-    end
-
-    F1 --> F
-    F2 --> F
-    F3 --> F
-    F4 --> F
-    F5 --> F
-```
+![system-design](./system-design.png)
 
 ## Technologies
 - **ASP.NET Core Web API**
