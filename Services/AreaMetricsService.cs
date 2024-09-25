@@ -43,7 +43,7 @@ namespace EnvironmentalMetricsService.Services
 
         public Task<IEnumerable<MetricRecord>> GetMetricsHistoryAsync(Guid id, int page = 1, int pageSize = 10)
         {
-            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>(null);
+            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>([]);
 
             var metricsHistory = _areas[id].MetricsHistory
                 .Skip((page - 1) * pageSize)
@@ -53,7 +53,7 @@ namespace EnvironmentalMetricsService.Services
 
         public Task<IEnumerable<MetricRecord>> GetMetricsHistoryByTimeRangeAsync(Guid id, DateTime startTime, DateTime endTime)
         {
-            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>(null);
+            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>([]);
 
             var filteredMetrics = _areas[id].MetricsHistory
                                 .Where(m => m.TimeStamp >= startTime && m.TimeStamp <= endTime);
