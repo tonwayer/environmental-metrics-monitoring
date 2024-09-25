@@ -37,9 +37,9 @@ namespace EnvironmentalMetricsService.Controllers
         }
 
         [HttpGet("areas/{id}/metrics/history")]
-        public async Task<IActionResult> GetMetricsHistory(Guid id)
+        public async Task<IActionResult> GetMetricsHistory(Guid id, int page = 1, int pageSize = 10)
         {
-            var metricsHistory = await _areaMetricsService.GetMetricsHistoryAsync(id);
+            var metricsHistory = await _areaMetricsService.GetMetricsHistoryAsync(id, page, pageSize);
             return Ok(metricsHistory);
         }
 

@@ -41,15 +41,14 @@ namespace EnvironmentalMetricsService.Services
             return Task.FromResult<MetricRecord>(null);
         }
 
-        public Task<IEnumerable<MetricRecord>> GetMetricsHistoryAsync(Guid id)
+        public Task<IEnumerable<MetricRecord>> GetMetricsHistoryAsync(Guid id, int page = 1, int pageSize = 10)
         {
-            if (_areas.ContainsKey(id))
-            {
-                var history = _areas[id].MetricsHistory;
-                return Task.FromResult(history.AsEnumerable());
-            }
+            if (!_areas.ContainsKey(id)) return Task.FromResult<IEnumerable<MetricRecord>>(null);
 
-            return Task.FromResult<IEnumerable<MetricRecord>>(null);
+            var metricsHistory = _areas[id].MetricsHistory
+                                .Skip((page - 1) * pageSize)
+                                .Take(pageSize);
+            return Task.FromResult(metricsHistory);
         }
 
         public Task<IEnumerable<AreaMetrics>> ListMonitoredAreasAsync()
