@@ -32,7 +32,7 @@ namespace EnvironmentalMetricsService.Controllers
         [HttpGet("areas/{id}/metrics/latest")]
         public async Task<IActionResult> GetLatestMetrics(Guid id)
         {
-            var latestMetrics = await _areaMetricsService.GetMetricsAsync(id);
+            var latestMetrics = await _areaMetricsService.GetLatestMetricsAsync(id);
             return Ok(latestMetrics);
         }
 

@@ -22,16 +22,17 @@ namespace EnvironmentalMetricsService.Services
 
         public Task RecordMetricsAsync(Guid id, MetricRecord metricRecord)
         {
-            if (_areas.ContainsKey(id))
+            if (!_areas.ContainsKey(id))
             {
-                _areas[id].MetricsHistory.Add(metricRecord);
+                throw new KeyNotFoundException($"Area with ID {id} not found.");
             }
+            _areas[id].MetricsHistory.Add(metricRecord);
             return Task.CompletedTask;
         }
 
-        public Task<MetricRecord> GetMetricsAsync(Guid id)
+        public Task<MetricRecord> GetLatestMetricsAsync(Guid id)
         {
-            if (!_areas.ContainsKey(id))
+            if (_areas.ContainsKey(id))
             {
                 var latestMetric = _areas[id].MetricsHistory.LastOrDefault();
                 return Task.FromResult(latestMetric);
