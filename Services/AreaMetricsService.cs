@@ -4,7 +4,7 @@ namespace EnvironmentalMetricsService.Services
 {
     public class AreaMetricsService : IAreaMetricsService
     {
-        private readonly Dictionary<Guid, AreaMetrics> _areas = new Dictionary<Guid, AreaMetrics>();
+        private readonly Dictionary<Guid, AreaMetrics> _areas = [];
 
         public Task<Guid> RegisterAreaAsync(string areaName)
         {
@@ -45,10 +45,15 @@ namespace EnvironmentalMetricsService.Services
             if (_areas.ContainsKey(id))
             {
                 var latestMetric = _areas[id].MetricsHistory.LastOrDefault();
-                return Task.FromResult(latestMetric);
+                if (latestMetric != null)
+                {
+                    return Task.FromResult(latestMetric);
+                }
+
+                throw new InvalidOperationException($"No metrics found for area with ID {id}.");
             }
 
-            return Task.FromResult<MetricRecord>(null);
+            throw new KeyNotFoundException($"Area with ID {id} not found.");
         }
 
         public Task<IEnumerable<MetricRecord>> GetMetricsHistoryAsync(Guid id, int page = 1, int pageSize = 10)
