@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace EnvironmentalMetricsService.Models
+﻿namespace EnvironmentalMetricsService.Models
 {
     public class AreaMetrics
     {

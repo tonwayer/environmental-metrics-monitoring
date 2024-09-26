@@ -2,12 +2,22 @@
 
 namespace EnvironmentalMetricsService.Services
 {
-    public class AreaMetricsService: IAreaMetricsService
+    public class AreaMetricsService : IAreaMetricsService
     {
         private readonly Dictionary<Guid, AreaMetrics> _areas = new Dictionary<Guid, AreaMetrics>();
 
         public Task<Guid> RegisterAreaAsync(string areaName)
         {
+            if (string.IsNullOrWhiteSpace(areaName))
+            {
+                throw new ArgumentException("Area name cannot be empty.");
+            }
+
+            if (_areas.Values.Any(a => a.AreaName == areaName))
+            {
+                throw new ArgumentException("Area name cannot be duplicated.");
+            }
+
             var areaId = Guid.NewGuid();
             var areaMetrics = new AreaMetrics
             {
@@ -59,7 +69,6 @@ namespace EnvironmentalMetricsService.Services
                                 .Where(m => m.TimeStamp >= startTime && m.TimeStamp <= endTime);
             return Task.FromResult(filteredMetrics);
         }
-
 
         public Task<IEnumerable<AreaMetrics>> ListMonitoredAreasAsync()
         {

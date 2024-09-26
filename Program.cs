@@ -1,8 +1,8 @@
+using EnvironmentalMetricsService.Middlewares;
 using EnvironmentalMetricsService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IAreaMetricsService, AreaMetricsService>();
@@ -12,7 +12,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
